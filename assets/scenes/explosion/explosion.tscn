@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://6ubu057o1t1x"]
+
+[ext_resource type="Texture2D" uid="uid://dygv86rt5vvpt" path="res://assets/scenes/explosion/images/explosion.png" id="1_py84p"]
+
+[sub_resource type="Animation" id="Animation_py84p"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [63]
+}
+
+[sub_resource type="Animation" id="Animation_8cixy"]
+resource_name = "explosion"
+length = 0.64
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.01, 0.64),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0, 1, 63]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wjktg"]
+_data = {
+&"RESET": SubResource("Animation_py84p"),
+&"explosion": SubResource("Animation_8cixy")
+}
+
+[node name="Explosion" type="Sprite2D" unique_id=2706050]
+texture = ExtResource("1_py84p")
+hframes = 8
+vframes = 8
+frame = 63
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1474237643]
+libraries/ = SubResource("AnimationLibrary_wjktg")
