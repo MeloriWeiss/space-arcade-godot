@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://bty3yi4l8gsnv"]
+
+[ext_resource type="Script" uid="uid://rthan7rwai1t" path="res://assets/scenes/rock/scripts/rock.gd" id="1_5kusr"]
+[ext_resource type="Texture2D" uid="uid://182g2giygctj" path="res://assets/scenes/rock/images/asteroid.png" id="2_4035w"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_74c8a"]
+bounce = 1.0
+
+[node name="Rock" type="RigidBody2D" unique_id=882549053]
+physics_material_override = SubResource("PhysicsMaterial_74c8a")
+linear_damp_mode = 1
+angular_damp_mode = 1
+script = ExtResource("1_5kusr")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1714816963]
+texture = ExtResource("2_4035w")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=288211680]
