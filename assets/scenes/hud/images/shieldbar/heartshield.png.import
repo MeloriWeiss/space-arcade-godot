@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bku0g25avxljv"
-path="res://.godot/imported/frame_6.png-77ae99bae533880af67cefe44783d3ff.ctex"
+uid="uid://cx66sgo88y66s"
+path="res://.godot/imported/heartshield.png-c089b88ee9ef9d9108039fe1601cdd47.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/scenes/bullet/animations/idle/frame_6.png"
-dest_files=["res://.godot/imported/frame_6.png-77ae99bae533880af67cefe44783d3ff.ctex"]
+source_file="res://assets/scenes/hud/images/shieldbar/heartshield.png"
+dest_files=["res://.godot/imported/heartshield.png-c089b88ee9ef9d9108039fe1601cdd47.ctex"]
 
 [params]
 

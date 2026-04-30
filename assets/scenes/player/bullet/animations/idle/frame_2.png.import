@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cj2y4nhcx7gnu"
-path="res://.godot/imported/frame_3.png-3b2990cfe86669ce61627575a1d23616.ctex"
+uid="uid://myw6f5dauams"
+path="res://.godot/imported/frame_2.png-4d5b47a20b8d01dd5c7b201f6e8a6a46.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/scenes/bullet/animations/idle/frame_3.png"
-dest_files=["res://.godot/imported/frame_3.png-3b2990cfe86669ce61627575a1d23616.ctex"]
+source_file="res://assets/scenes/player/bullet/animations/idle/frame_2.png"
+dest_files=["res://.godot/imported/frame_2.png-4d5b47a20b8d01dd5c7b201f6e8a6a46.ctex"]
 
 [params]
 

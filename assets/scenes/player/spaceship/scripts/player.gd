@@ -4,8 +4,14 @@ extends RigidBody2D
 @export var spin_power = 16000
 
 @export var bullet_scene : PackedScene
-@export var fire_rate = 0.5: set = set_fire_rate
+@export var fire_rate = 0.53: set = set_fire_rate
 var can_shoot = true
+var can_play = false
+
+@export var max_shield = 100.0
+@export var shield_regen = 5.0
+signal shield_changed
+var shield = 0: set = set_shield
 
 signal lives_changed
 signal dead
@@ -36,15 +42,26 @@ func _ready() -> void:
 
 
 func _process(delta):
+	if not can_play: return
+	
+	shield += shield_regen * delta
 	get_input()
 
 
 func get_input():
+	$Exhaust.emitting = false
 	thrust = Vector2.ZERO
+	
 	if state in [DEAD, INIT]: return
 	
 	if Input.is_action_pressed("thrust"):
+		$Exhaust.emitting = true
 		thrust = transform.x * engine_power
+		if not $EngineSound.playing:
+			$EngineSound.play()
+	else:
+		$EngineSound.stop()
+	
 	if Input.is_action_pressed("shoot"):
 		shoot()
 	
@@ -83,6 +100,7 @@ func change_state(new_state):
 		DEAD:
 			$CollisionShape2D.set_deferred("disabled", true)
 			$Sprite2D.hide()
+			$EngineSound.stop()
 			linear_velocity = Vector2.ZERO
 			dead.emit()
 	state = new_state
@@ -92,6 +110,7 @@ func shoot():
 	
 	can_shoot = false
 	$GunCooldown.start()
+	$LaserSound.play()
 	var b = bullet_scene.instantiate()
 	get_tree().root.add_child(b)
 	b.start($Muzzle.global_transform)
@@ -103,15 +122,18 @@ func _on_gun_cooldown_timeout() -> void:
 func set_lives(value, has_invulnerable = true):
 	_lives = value
 	lives_changed.emit(_lives)
+	shield = max_shield
 	
 	if _lives <= 0:
 		change_state(DEAD)
-	if has_invulnerable:
+	else:
+		if not has_invulnerable: return
 		change_state(INVULNERABLE)
 
 func reset():
 	reset_pos = true
 	$Sprite2D.show()
+	can_play = true
 	lives = 3
 	change_state(ALIVE)
 
@@ -124,9 +146,8 @@ func _on_body_entered(body):
 	if state == INVULNERABLE: return
 	
 	if body.is_in_group("Rocks"):
+		shield -= body.size * 25
 		body.explode()
-		lives -= 1
-		explode()
 
 func explode():
 	$Explosion.show()
@@ -141,3 +162,13 @@ func set_fire_rate(value):
 	else:
 		fire_rate = value
 		$GunCooldown.wait_time = fire_rate
+
+
+func set_shield(value):
+	value = min(value, max_shield)
+	shield = value
+	shield_changed.emit(shield / max_shield)
+	
+	if shield <= 0:
+		lives -= 1
+		explode()

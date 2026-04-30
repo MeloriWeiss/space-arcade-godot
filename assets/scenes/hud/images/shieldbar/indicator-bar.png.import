@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://myw6f5dauams"
-path="res://.godot/imported/frame_2.png-5098d44b3228d7af76f220c8609c6036.ctex"
+uid="uid://cnrgw32jxjv0r"
+path="res://.godot/imported/indicator-bar.png-09eaeb46d5e62fad63285b78a38c439d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/scenes/bullet/animations/idle/frame_2.png"
-dest_files=["res://.godot/imported/frame_2.png-5098d44b3228d7af76f220c8609c6036.ctex"]
+source_file="res://assets/scenes/hud/images/shieldbar/indicator-bar.png"
+dest_files=["res://.godot/imported/indicator-bar.png-09eaeb46d5e62fad63285b78a38c439d.ctex"]
 
 [params]
 

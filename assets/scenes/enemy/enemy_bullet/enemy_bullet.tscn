@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://wbartkdoh6x1"]
+
+[ext_resource type="Script" uid="uid://thoxa12yjwyb" path="res://assets/scenes/enemy/enemy_bullet/scripts/enemy_bullet.gd" id="1_4e83e"]
+[ext_resource type="Texture2D" uid="uid://buvndrmlfm5na" path="res://assets/scenes/enemy/enemy_bullet/images/enemy_bullet.png" id="2_a2ea6"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_56lgj"]
+
+[sub_resource type="Animation" id="Animation_5l8qj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
+}
+
+[sub_resource type="Animation" id="Animation_dfh6m"]
+resource_name = "enemy_bullet"
+length = 0.12
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.11),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ibda6"]
+_data = {
+&"RESET": SubResource("Animation_5l8qj"),
+&"enemy_bullet": SubResource("Animation_dfh6m")
+}
+
+[node name="Enemy_Bullet" type="Area2D" unique_id=1385527401]
+script = ExtResource("1_4e83e")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1112546725]
+position = Vector2(0, 7.450581e-09)
+scale = Vector2(0.14713542, 0.14713542)
+texture = ExtResource("2_a2ea6")
+hframes = 4
+vframes = 2
+frame = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=911322228]
+shape = SubResource("CircleShape2D_56lgj")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1263280253]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1658314923]
+libraries/ = SubResource("AnimationLibrary_ibda6")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

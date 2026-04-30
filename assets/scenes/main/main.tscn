@@ -3,8 +3,12 @@
 [ext_resource type="Texture2D" uid="uid://03xeoeubmygi" path="res://assets/scenes/main/images/space.jpg" id="1_pjrb6"]
 [ext_resource type="Script" uid="uid://upojitok7614" path="res://assets/scenes/main/scripts/main.gd" id="1_xwkvk"]
 [ext_resource type="PackedScene" uid="uid://bty3yi4l8gsnv" path="res://assets/scenes/rock/rock.tscn" id="2_c651c"]
-[ext_resource type="PackedScene" uid="uid://pwm5egygmo80" path="res://assets/scenes/player/player.tscn" id="2_xwkvk"]
+[ext_resource type="PackedScene" uid="uid://pwm5egygmo80" path="res://assets/scenes/player/spaceship/player.tscn" id="2_xwkvk"]
+[ext_resource type="PackedScene" uid="uid://bfk6iduqtcd6h" path="res://assets/scenes/enemy/saucer/enemy.tscn" id="3_7jvyi"]
 [ext_resource type="PackedScene" uid="uid://17cqp7pvl07m" path="res://assets/scenes/hud/hud.tscn" id="5_uh04r"]
+[ext_resource type="AudioStream" uid="uid://clq2qp3srtot0" path="res://assets/sounds/explosion.wav" id="7_eo557"]
+[ext_resource type="AudioStream" uid="uid://ww351yom1i87" path="res://assets/sounds/levelup.ogg" id="8_80r2x"]
+[ext_resource type="AudioStream" uid="uid://doq07dq6qchgl" path="res://assets/sounds/funky-gameplay_looping.ogg" id="9_u1byx"]
 
 [sub_resource type="Curve2D" id="Curve2D_pjrb6"]
 _data = {
@@ -13,8 +17,10 @@ _data = {
 point_count = 5
 
 [node name="Node2D" type="Node2D" unique_id=1112516951]
+process_mode = 3
 script = ExtResource("1_xwkvk")
 rock_scene = ExtResource("2_c651c")
+enemy_scene = ExtResource("3_7jvyi")
 
 [node name="Background" type="Sprite2D" parent="." unique_id=422615993]
 texture = ExtResource("1_pjrb6")
@@ -29,6 +35,22 @@ curve = SubResource("Curve2D_pjrb6")
 
 [node name="HUD" parent="." unique_id=2047413515 instance=ExtResource("5_uh04r")]
 
+[node name="EnemyTimer" type="Timer" parent="." unique_id=1650695869]
+one_shot = true
+
+[node name="ExplosionSound" type="AudioStreamPlayer2D" parent="." unique_id=466022977]
+stream = ExtResource("7_eo557")
+
+[node name="LevelUpSound" type="AudioStreamPlayer2D" parent="." unique_id=2086507726]
+stream = ExtResource("8_80r2x")
+
+[node name="Music" type="AudioStreamPlayer2D" parent="." unique_id=183948066]
+process_mode = 1
+stream = ExtResource("9_u1byx")
+parameters/looping = true
+
 [connection signal="dead" from="Player" to="." method="game_over"]
 [connection signal="lives_changed" from="Player" to="HUD" method="update_lives"]
+[connection signal="shield_changed" from="Player" to="HUD" method="update_shield"]
 [connection signal="start_game" from="HUD" to="." method="new_game"]
+[connection signal="timeout" from="EnemyTimer" to="." method="_on_enemy_timer_timeout"]

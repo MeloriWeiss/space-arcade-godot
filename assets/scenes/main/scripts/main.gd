@@ -1,6 +1,8 @@
 extends Node2D
 
 @export var rock_scene : PackedScene
+@export var enemy_scene : PackedScene
+
 var screensize = Vector2.ZERO
 
 var level = 0
@@ -19,18 +21,23 @@ func _process(delta: float) -> void:
 		new_level()
 
 func new_game():
+	get_tree().call_group("Enemies", "queue_free")
 	get_tree().call_group("Rocks", "queue_free")
 	level = 0
 	score = 0
 	$HUD.update_score(score)
 	$HUD.show_message("Get Ready!")
 	$Player.reset()
+	$Music.play()
 	await $HUD/Timer.timeout
 	playing = true
+	$EnemyTimer.start(randf_range(5, 40))
+
 
 func new_level():
 	level += 1
 	$Player.fire_rate -= 0.03
+	$LevelUpSound.play()
 	
 	var lives = $Player.lives
 	if lives < 3:
@@ -39,6 +46,7 @@ func new_level():
 	$HUD.show_message("Level %s" % level)
 	for i in level:
 		spawn_rock(3)
+
 
 func spawn_rock(size, pos=null, vel=null):
 	if pos == null:
@@ -59,6 +67,7 @@ func spawn_rock(size, pos=null, vel=null):
 func _on_rock_exploded(size, radius, pos, vel):
 	score += 10 * size
 	$HUD.update_score(score)
+	$ExplosionSound.play()
 	
 	if size <= 1: return
 	
@@ -71,3 +80,31 @@ func _on_rock_exploded(size, radius, pos, vel):
 func game_over():
 	playing = false
 	$HUD.game_over()
+	$Music.stop()
+
+func _input(event):
+	if event.is_action_pressed("pause"):
+		if not playing: return
+		
+		get_tree().paused = not get_tree().paused
+		var message = $HUD/VBoxContainer/Message
+		
+		if get_tree().paused:
+			message.text = "Paused"
+			message.show()
+		else:
+			message.text = ""
+			message.hide()
+
+
+func _on_enemy_timer_timeout() -> void:
+	var e = enemy_scene.instantiate()
+	add_child(e)
+	e.target = $Player
+	e.exploded.connect(self._on_enemy_exploded)
+	e.health = level * randi_range(1, 2)
+	$EnemyTimer.start(randf_range(20, 50))
+
+func _on_enemy_exploded() -> void:
+	score += 10 * level
+	$HUD.update_score(score)

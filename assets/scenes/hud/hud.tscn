@@ -3,6 +3,9 @@
 [ext_resource type="FontFile" uid="uid://stv7udu3n0gl" path="res://assets/scenes/hud/fonts/LindbergCaffeine.ttf" id="1_8ajw8"]
 [ext_resource type="Script" uid="uid://rvmvam18o6uf" path="res://assets/scenes/hud/scripts/hud.gd" id="1_kt8cv"]
 [ext_resource type="Texture2D" uid="uid://du8jatxe3dg8r" path="res://assets/images/player/player.png" id="2_kt8cv"]
+[ext_resource type="Texture2D" uid="uid://cx66sgo88y66s" path="res://assets/scenes/hud/images/shieldbar/heartshield.png" id="3_ssdx6"]
+[ext_resource type="Texture2D" uid="uid://ym767bm5halg" path="res://assets/scenes/hud/images/shieldbar/indicator-bg.png" id="4_6kloo"]
+[ext_resource type="Texture2D" uid="uid://cnrgw32jxjv0r" path="res://assets/scenes/hud/images/shieldbar/indicator-bar.png" id="5_vb1xm"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_8ajw8"]
 font = ExtResource("1_8ajw8")
@@ -40,7 +43,7 @@ script = ExtResource("1_kt8cv")
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1111235812]
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 109.0
+offset_bottom = 120.0
 grow_horizontal = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
@@ -55,6 +58,31 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "0"
 label_settings = SubResource("LabelSettings_8ajw8")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer" unique_id=1728354631]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/MarginContainer" unique_id=2126092470]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("3_ssdx6")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="ShieldBar" type="TextureProgressBar" parent="MarginContainer/HBoxContainer" unique_id=1222574590]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.01
+value = 0.75
+texture_under = ExtResource("4_6kloo")
+texture_progress = ExtResource("5_vb1xm")
 
 [node name="LivesCounter" type="HBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=189468866]
 layout_mode = 2
